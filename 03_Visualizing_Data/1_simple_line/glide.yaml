@@ -1,0 +1,8 @@
+package: data-science-from-scratch/03_Visualizing_Data/1_simple_line
+import:
+- package: github.com/gonum/plot
+  subpackages:
+  - plotter
+  - vg
+  - vg/draw
+- package: github.com/twgophers/browser

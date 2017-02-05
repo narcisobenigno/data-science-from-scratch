@@ -16,3 +16,8 @@ For chapter 3, _Visualizing Data_, the only required package is `matplotlib`. Yo
 
     (DS_Scratch) $ cd 03_Visualizing_Data/
     (DS_Scratch) $ python 1_simple_line.py
+
+## Dependencies to run golang examples
+
+  . Mercurial
+  . Git
