@@ -1,0 +1,62 @@
+<!doctype html>
+
+<html>
+    <head>
+        <link href='lib/dist/metricsgraphics.css' rel='stylesheet' type='text/css'>
+    </head>
+
+    <body>
+        <label>Non Binned</label>
+        <div id="grade-distribution-nonbinned"></div>
+
+        <label>Binned</label>
+        <div id="grade-distribution-binned"></div>
+
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+        <script src="https://d3js.org/d3.v4.min.js" charset='utf-8'></script>
+        <script type="text/javascript" src="lib/dist/metricsgraphics.min.js"></script>
+        <script type="text/javascript">
+         var grades = [83,95,91,87,70,0,85,82,100,67,73,77,0]
+
+         MG.data_graphic({
+             title: "Distribution of Exame 1 Grades",
+             description: "Non binned",
+             binned: false,
+             chart_type: 'histogram',
+             max_x: 100,
+             bins: 10,
+             data: grades,
+             width: 650,
+             height: 300,
+             y_extended_ticks: true,
+             target: '#grade-distribution-nonbinned'
+         });
+
+         var histogram = grades.reduce((acc, value) => {
+             var rounded = Math.floor(value / 10) * 10;
+             acc[rounded] = acc[rounded] ? acc[rounded] + 1 : 1;
+             return acc;
+         }, {});
+
+         histogram = Object.keys(histogram).map((x) => {
+             return { value: x, count: histogram[x] }
+         });
+
+         MG.data_graphic({
+             title: "Distribution of Exame 1 Grades",
+             description: "Non binned",
+             binned: true,
+             chart_type: 'histogram',
+             max_x: 100,
+             bins: 10,
+             data: histogram,
+             width: 650,
+             height: 300,
+             y_extended_ticks: true,
+             target: '#grade-distribution-binned',
+             x_accessor: 'value',
+             y_accessor: 'count'
+         });
+        </script>
+    </body>
+</html>
