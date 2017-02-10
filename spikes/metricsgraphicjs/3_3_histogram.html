@@ -18,13 +18,15 @@
         <script type="text/javascript">
          var grades = [83,95,91,87,70,0,85,82,100,67,73,77,0]
 
+         let step = 10;
+
          MG.data_graphic({
              title: "Distribution of Exame 1 Grades",
              description: "Non binned",
              binned: false,
              chart_type: 'histogram',
              max_x: 100,
-             bins: 10,
+             bins: step,
              data: grades,
              width: 650,
              height: 300,
@@ -32,15 +34,25 @@
              target: '#grade-distribution-nonbinned'
          });
 
-         var histogram = grades.reduce((acc, value) => {
-             var rounded = Math.floor(value / 10) * 10;
-             acc[rounded] = acc[rounded] ? acc[rounded] + 1 : 1;
-             return acc;
-         }, {});
+         let sorted_grades = grades.sort();
+         let start = Math.floor(grades[0]/step) * 10;
+         let end = Math.ceil(grades[grades.length - 1] / step) * step;
 
-         histogram = Object.keys(histogram).map((x) => {
-             return { value: x, count: histogram[x] }
-         });
+         let histogram = {}
+         for(let i of Array((end / step)).keys()) {
+             histogram[i * step] = 0;
+         }
+
+         histogram = grades.reduce((acc, value) => {
+             var rounded = Math.floor(value / 10) * 10;
+             if(rounded == end) {acc[rounded - step]++;}
+             else { acc[rounded]++; }
+
+             return acc;
+         }, histogram);
+
+         histogram = Object.keys(histogram)
+                           .map((x) => {return { value: x, count: histogram[x] }});
 
          MG.data_graphic({
              title: "Distribution of Exame 1 Grades",
